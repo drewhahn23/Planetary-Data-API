@@ -6,8 +6,11 @@ import sys
 from skyfield.api import load
 from flask import Flask, render_template, redirect, url_for,request,jsonify
 from flask import make_response
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-type'
 
 ## getting distances of all planets from earth
 def conv_to_miles(dist_in_au):
@@ -156,6 +159,7 @@ def merge_dfs(df_distances,df):
 	return final_df
 
 @app.route('/')
+@cross_origin()
 
 def main():
 	distances = get_all_distances()

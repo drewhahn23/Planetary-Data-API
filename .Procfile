@@ -1,1 +1,1 @@
-heroku ps:scale web=1 --app space-api-drew
+web: gunicorn space_project_distances:app

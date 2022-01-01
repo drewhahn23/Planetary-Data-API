@@ -1,1 +1,1 @@
-web: gunicorn space_project_distances:app
+web: gunicorn --bind 0.0.0.0:$PORT space_project_distances:app

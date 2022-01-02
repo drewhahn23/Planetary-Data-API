@@ -165,6 +165,7 @@ def main():
 	distances = get_all_distances()
 	planets = planet_info()
 	df = merge_dfs(distances,planets)
+	df.set_index('name',inplace=True)
 	print(df)
 	fin_dict = df.to_dict()
 	return jsonify(fin_dict) 

@@ -125,12 +125,12 @@ def planet_info():
 	df = df.drop(['id','vol','eccentricity','name','moons','isPlanet','dimension','discoveredBy','discoveryDate','alternativeName','axialTilt','mainAnomaly','argPeriapsis','longAscNode','aroundPlanet','sideralRotation','escape','inclination','avgTemp','rel','flattening','sideralOrbit','polarRadius','meanRadius'],axis=1)
 	return df
 
-#time to reach traveling at maximum heliocentric veolocity recorded (Helios II spacecraft): 70km/s
+#time to reach traveling at avg speed taken to get to mars: 26.5 km/s
 
 def time_to_reach(row):
 
 	dist_kilo = float(row['distance_miles']) * 1.609344
-	time_in_s = dist_kilo/70
+	time_in_s = dist_kilo/26.5
 	years = round(float(time_in_s/(3600*24*365)),3)
 
 	row['Years to Reach at Max Recorded Speed'] = years

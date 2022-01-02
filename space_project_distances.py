@@ -93,16 +93,8 @@ def get_all_distances():
 
 	df_distances = pd.DataFrame(distances_dict)
 	df_distances['englishName'] = df_distances.index
+	df_distances = df_distances.apply(lambda x: time_to_reach(x),axis=1)
 	return df_distances
-
-
-
-
-
-
-
-
-
 
 
 
@@ -133,6 +125,19 @@ def planet_info():
 	df = df.drop(['id','vol','eccentricity','name','moons','isPlanet','dimension','discoveredBy','discoveryDate','alternativeName','axialTilt','mainAnomaly','argPeriapsis','longAscNode','aroundPlanet','sideralRotation','escape','inclination','avgTemp','rel','flattening','sideralOrbit','polarRadius','meanRadius'],axis=1)
 	return df
 
+#time to reach traveling at maximum heliocentric veolocity recorded (Helios II spacecraft): 70km/s
+
+def time_to_reach(row):
+
+	dist_kilo = float(row['distance_miles']) * 1.609344
+	time_in_s = dist_kilo/70
+	years = round(float(time_in_s/(3600*24*365)),3)
+
+	row['Years to Reach at Max Recorded Speed'] = years
+
+	return row
+
+
 ##merging distance info and planetary info
 
 def merge_dfs(df_distances,df):
@@ -145,7 +150,7 @@ def merge_dfs(df_distances,df):
 	final_df.sort_values(by=['name'],key=lambda x: x.map(ordering_dict),inplace=True)
 	final_df.reset_index(inplace=True,drop=True)
 
-	final_df = final_df[['name','distance_miles','distance_au','density','equaRadius','perihelion','aphelion','gravity','semimajorAxis']]
+	final_df = final_df[['name','distance_miles','distance_au','density','equaRadius','perihelion','aphelion','gravity','Years to Reach at Max Recorded Speed']]
 	final_df.rename({
 		'distance_miles':'Distance from Earth (mi.)',
 		'distance_au':'Distance from Earth (au)',
@@ -154,7 +159,7 @@ def merge_dfs(df_distances,df):
 		'perihelion':'Perihelion',
 		'aphelion':'Aphelion',
 		'gravity':'Gravity',
-		'semimajorAxis':'Semi-Major Axis'
+		# 'semimajorAxis':'Semi-Major Axis'
 		},axis=1,inplace=True)
 	return final_df
 

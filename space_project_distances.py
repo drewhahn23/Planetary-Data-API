@@ -133,7 +133,7 @@ def time_to_reach(row):
 	time_in_s = dist_kilo/26.5
 	years = round(float(time_in_s/(3600*24*365)),3)
 
-	row['Years to Reach at Max Recorded Speed'] = years
+	row['Years to Reach'] = years
 
 	return row
 
@@ -150,7 +150,7 @@ def merge_dfs(df_distances,df):
 	final_df.sort_values(by=['name'],key=lambda x: x.map(ordering_dict),inplace=True)
 	final_df.reset_index(inplace=True,drop=True)
 
-	final_df = final_df[['name','distance_miles','distance_au','density','equaRadius','perihelion','aphelion','gravity','Years to Reach at Max Recorded Speed']]
+	final_df = final_df[['name','distance_miles','distance_au','density','equaRadius','perihelion','aphelion','gravity','Years to Reach']]
 	final_df.rename({
 		'distance_miles':'Distance from Earth (mi.)',
 		'distance_au':'Distance from Earth (au)',

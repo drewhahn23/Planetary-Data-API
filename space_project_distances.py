@@ -261,7 +261,7 @@ def get_pos_relative_sun():
 			'Earth':x_earth,
 			'Mars': x_mars,
 			'Jupiter': x_jupiter,
-			'Saturn': x_saturn
+			'Saturn': x_saturn,
 			'Uranus': x_uranus,
 			'Neptune': x_neptune,
 			'Pluto':x_pluto 

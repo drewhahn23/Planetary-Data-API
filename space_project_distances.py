@@ -7,11 +7,13 @@ from skyfield.api import load
 from flask import Flask, render_template, redirect, url_for,request,jsonify
 from flask import make_response
 from flask_cors import CORS, cross_origin
+from flask_restful import Api, Resource
 # from skyfield_geo_testing import get_pos_relative_sun
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-type'
+api =  Api(app)
 
 ## getting distances of all planets from earth
 def conv_to_miles(dist_in_au):
@@ -173,6 +175,7 @@ def merge_dfs(df_distances,df):
 		},axis=1,inplace=True)
 	return final_df
 
+# api.add_resource('/')
 @app.route('/')
 @cross_origin()
 
@@ -187,7 +190,8 @@ def main():
 	return jsonify(fin_dict) 
 
 
-@app.route('/Positions')
+# api.add_resource('/positions',endpoints='positions')
+@app.route('/positions')
 @cross_origin()
 
 def get_pos_relative_sun():
@@ -230,7 +234,7 @@ def get_pos_relative_sun():
 	sun, jupiter = eph['sun'], eph['JUPITER BARYCENTER']
 	position_jupiter = sun.at(t).observe(jupiter)
 	x_jupiter, y_jupiter, z_jupiter = position_jupiter.xyz.au
-	ra_jupiter, dec_juptier, distance_jupiter = position_jupiter.radec()
+	ra_jupiter, dec_jupiter, distance_jupiter = position_jupiter.radec()
 
 	sun, saturn = eph['sun'], eph['SATURN BARYCENTER']
 	position_saturn = sun.at(t).observe(saturn)
@@ -304,8 +308,8 @@ def get_pos_relative_sun():
 			'Venus':dec_venus.radians,
 			'Earth':dec_earth.radians,
 			'Mars': dec_mars.radians,
-			'Jupiter': dec_juptier.radians,
-			'Saturn': dec_jupiter.radians,
+			'Jupiter': dec_jupiter.radians,
+			'Saturn': dec_saturn.radians,
 			'Uranus': dec_uranus.radians,
 			'Neptune': dec_neptune.radians,
 			'Pluto': dec_pluto.radians
